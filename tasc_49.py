@@ -27,6 +27,9 @@ def program_ifo():
     print("w - запись  нового контакта")
     print("r -  чтение вашего справочнике")
     print("i - информация")
+    print("c - скопировать строчку в новый файл")
+
+
 
 class NameError(Exception):
     def __init__(self, txt):
@@ -73,7 +76,22 @@ def reader_file(file_name):
         f_reader = DictReader(date)
         return list(f_reader)
 
+def copy_file(file_name, new_file_name):
+    list_1 = list(reader_file(file_name))
+    y = int(input(f"Выберите номер строки c 1 по {len(list_1)}: "))
+    result = [list_1[y - 1]]
+    with open(new_file_name, 'w', encoding="utf-8", newline='') as data:
+        f_writer = DictWriter(data, fieldnames=['Имя', 'Фамилия', 'Телефон'])
+        f_writer.writeheader()
+        f_writer.writerows(result)
+
+
 file_name = "phone.csv"
+new_file_name = "nevPfone.csv"
+
+
+
+
 
 reader_file(file_name)
 
@@ -113,4 +131,9 @@ def main():
             print(reader_file((file_name)))
         elif command == "i" or command == "ш" :
             program_ifo()
+
+        elif command == "c" or command == "с":
+            copy_file(file_name, new_file_name)
+            print("Файл скопирован")
+
 main()
